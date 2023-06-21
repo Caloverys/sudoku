@@ -101,8 +101,6 @@
 	function generate_numbers(){
 		const array = [];
 		for(let i =0; i < 9;i++){
-			//if it is not the leftmost rect
-			let sub_array = [];
 
 				const left_restricted_row = [];
 				const leftmost_column = Math.floor(i/3) *3;
@@ -118,7 +116,7 @@
 					}
 
 			}
-			console.log(left_restricted_row)
+			//console.log(left_restricted_row)
 			const top_restricted_row = [];
 			const topmost_column = i%3;
 			for(let j = topmost_column; j<i;j+=3) {
@@ -132,30 +130,58 @@
 					}
 
 			}
-			console.log(top_restricted_row);
 
 			const new_arr = [];
 		// can not directly modify arr because if will modify the original array (num_list)
-		const duplicate_arr =JSON.parse(JSON.stringify(arr));
-		while(duplicate_arr.length > 0){
-			let random_num = Math.floor(Math.random() *  duplicate_arr.length)
-			new_arr.push(duplicate_arr[random_num]);
-			 duplicate_arr.splice(random_num,1);
+		const duplicate_arr =JSON.parse(JSON.stringify(arr));;
+
+		while(duplicate_arr.length >0){
+			//get the current producing number in the rect
+			let current_num = num_list.length- duplicate_arr.length;
+			let ran_list = random_assign(num_list);
+			function check(num,duplicate_arr){
+				if(num === undefined) return false;
+				//console.log(left_restricted_row,current_num,num_list.length,duplicate_arr.length,duplicate_arr,Math.floor(current_num/3));
+				//debugger
+				if(left_restricted_row.length > 0){
+					if(left_restricted_row[Math.floor(current_num/3)].includes(num))
+						return false;
+
+				}
+				if(top_restricted_row.length > 0){
+					for(let i=0; i< top_restricted_row.length;i++){
+					if(top_restricted_row[i][num%3] === num)
+						return false;
+				}
+				}
+				
+				return true;
+			}
+			let index = 0 ;
+			while(!check(ran_list[index])){
+				index++;
+				
+			}
+			new_arr.push(ran_list[index]);
+			//console.log(duplicate_arr)
+			 duplicate_arr.splice(duplicate_arr.indexOf(ran_list[index]),1);
+			 console.log(duplicate_arr, new_arr)
+			 debugger
 
 		}
-		return new_arr;
+		array.push(new_arr);
 
 		}
-		document.querySelectorAll("table").forEach((table,num_1)=>{
+		
+document.querySelectorAll("table").forEach((table,num_1)=>{
 			table.querySelectorAll("td").forEach((td,num_2)=>{
 				td.textContent = array[num_1][num_2];
 			})
 		})
-		console.log(array)
-		
-
 
 	}
+
+	
 	generate_numbers();
 
 
