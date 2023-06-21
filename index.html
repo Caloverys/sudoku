@@ -104,9 +104,9 @@
 			//if it is not the leftmost rect
 			let sub_array = [];
 
-				const restricted_row = [];
+				const left_restricted_row = [];
 				const leftmost_column = Math.floor(i/3) *3;
-				for(let j=leftmost_column; j<leftmost_column+(i%3);j++){
+				for(let j=leftmost_column; j<i;j++){
 					for(let k =0;k<3;k++){
 						const sub_restricted_row = [];
 						for(let x =0; x< 3;x++){
@@ -114,14 +114,37 @@
 							sub_restricted_row.push(array[j][x + 3 * k])
 
 						}
-						restricted_row.push(sub_restricted_row);
-
+						left_restricted_row.push(sub_restricted_row);
 					}
-					console.log(restricted_row)
 
 			}
+			console.log(left_restricted_row)
+			const top_restricted_row = [];
+			const topmost_column = i%3;
+			for(let j = topmost_column; j<i;j+=3) {
+				for(let k =0;k<3;k++){
+						const sub_restricted_row = [];
+						for(let x =0; x< 3;x++){
+							sub_restricted_row.push(array[j][x + 3 * k])
 
-			array.push(random_assign(num_list));
+						}
+						top_restricted_row.push(sub_restricted_row);
+					}
+
+			}
+			console.log(top_restricted_row);
+
+			const new_arr = [];
+		// can not directly modify arr because if will modify the original array (num_list)
+		const duplicate_arr =JSON.parse(JSON.stringify(arr));
+		while(duplicate_arr.length > 0){
+			let random_num = Math.floor(Math.random() *  duplicate_arr.length)
+			new_arr.push(duplicate_arr[random_num]);
+			 duplicate_arr.splice(random_num,1);
+
+		}
+		return new_arr;
+
 		}
 		document.querySelectorAll("table").forEach((table,num_1)=>{
 			table.querySelectorAll("td").forEach((td,num_2)=>{
