@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<meta charset="UTF-8">
+<head>
+<style>
+
+	:root{
+		--cell_size:30px;
+		--cell_border_size: 1px;
+
+	}
+	table{
+		
+		border-collapse: collapse;
+		/* display three tables per row*/
+		flex: 0 0 33.333333%;
+		outline:2px solid black;
+		outline-offset: -1.5px;
+		padding:2px;
+
+
+	}
+	td{
+		width:30px;
+		border:var(--cell_border_size) solid black;
+
+		height:30px;
+		padding:0;
+		text-align: center;
+		font-size:calc(var(--cell_size) / 1.75);
+
+	}
+
+	#table_container{
+		 display: inline-flex;
+		flex-wrap: wrap;
+		font-family: sans-serif;
+		outline:2px solid black;
+		/*1 is the border size for td)*/
+		width:calc(calc(var(--cell_size) + var(--cell_border_size)) * 9);;
+		
+	
+
+
+	}
+	p{
+		color:black;
+		width:var(--cell_size);
+	}
+	
+</style>
+
+
+
+</head>
+<body>
+	<p>
+<div id='table_container'>
+
+</div>
+<script>
+	const table_container = document.querySelector("#table_container");
+
+	for(let i = 0; i<9;i++){
+		let table = document.createElement("table");
+		for(let j=0; j<3;j++){
+			let tr = document.createElement("tr");
+			for(let b = 0; b<3;b++){
+				let td = document.createElement("td");
+				tr.appendChild(td);
+			}
+			table.appendChild(tr)
+		}
+		table_container.appendChild(table);
+	}
+	for(let i )
+	document.querySelector("td").textContent = 1;
+</script>
+</body>
