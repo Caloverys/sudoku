@@ -4,6 +4,11 @@
 <meta charset="UTF-8">
 <head>
 <style>
+	*{
+		 -moz-user-select: none;
+   -webkit-user-select: none;
+   user-select: none;
+	}
 
 	:root{
 		--cell_size:30px;
@@ -38,15 +43,18 @@
 		font-family: sans-serif;
 		outline:2px solid black;
 		/*1 is the border size for td)*/
-		width:calc(calc(var(--cell_size) + var(--cell_border_size)) * 9);;
-		
+		width:calc(calc(var(--cell_size) + var(--cell_border_size)) * 9);
+		pos
 	
 
-
 	}
-	p{
-		color:black;
-		width:var(--cell_size);
+	.center{
+		width:100%;
+		display: flex;
+  justify-content: center;
+  position: fixed;
+  top:20%;
+
 	}
 	
 </style>
@@ -55,12 +63,14 @@
 
 </head>
 <body>
-	<p>
+<div class='center'>
 <div id='table_container'>
 
 </div>
+</div>
 <script>
 	const table_container = document.querySelector("#table_container");
+	const cell_list = [];
 
 	for(let i = 0; i<9;i++){
 		let table = document.createElement("table");
@@ -74,7 +84,57 @@
 		}
 		table_container.appendChild(table);
 	}
-	for(let i )
-	document.querySelector("td").textContent = 1;
+	const num_list =[1,2,3,4,5,6,7,8,9];
+	function random_assign(arr){
+		const new_arr = [];
+		// can not directly modify arr because if will modify the original array (num_list)
+		const duplicate_arr =JSON.parse(JSON.stringify(arr));
+		while(duplicate_arr.length > 0){
+			let random_num = Math.floor(Math.random() *  duplicate_arr.length)
+			new_arr.push(duplicate_arr[random_num]);
+			 duplicate_arr.splice(random_num,1);
+
+		}
+		return new_arr;
+
+	}
+	function generate_numbers(){
+		const array = [];
+		for(let i =0; i < 9;i++){
+			//if it is not the leftmost rect
+			let sub_array = [];
+
+				const restricted_row = [];
+				const leftmost_column = Math.floor(i/3) *3;
+				for(let j=leftmost_column; j<leftmost_column+(i%3);j++){
+					for(let k =0;k<3;k++){
+						const sub_restricted_row = [];
+						for(let x =0; x< 3;x++){
+
+							sub_restricted_row.push(array[j][x + 3 * k])
+
+						}
+						restricted_row.push(sub_restricted_row);
+
+					}
+					console.log(restricted_row)
+
+			}
+
+			array.push(random_assign(num_list));
+		}
+		document.querySelectorAll("table").forEach((table,num_1)=>{
+			table.querySelectorAll("td").forEach((td,num_2)=>{
+				td.textContent = array[num_1][num_2];
+			})
+		})
+		console.log(array)
+		
+
+
+	}
+	generate_numbers();
+
+
 </script>
 </body>
