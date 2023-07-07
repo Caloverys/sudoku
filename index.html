@@ -114,10 +114,11 @@
 
 				for(let j=Math.floor(i/3) * 3; j<i;j++){
 					console.log(hor_restricted_row)
-					for(let x=0;x<3;x++) hor_restricted_row[j].push(array[j][x])
+					//fixes the sequence
+					for(let x=0;x<3;x++) hor_restricted_row[i].push(array[j][x])
 
 				}
-			const ver_restricted_row = [];
+			const ver_restricted_row =  Array.from(Array(2), () => new Array(3));;
 			//i%3 => 0th or 1st or 2nd block
 			for(let j = i%3; j<i;j+=3) {
 				for(let k =0;k<3;k++){
@@ -134,14 +135,15 @@
 				for(let x = 0;x<3;x++){
 					//convert 2d array block to be 1d so that it could be searched (.includes) below. block.slice() create a copy of the original array
 					const flat_block = [].concat.apply([],block.slice());
+
 				    
-					if(hor_restricted_row.length > 0 && ver_restricted_row.length > 0) 
+					if(hor_restricted_row[0][0] !== undefined  && ver_restricted_row[0][0] !== undefined) 
 						block[j][x] = random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !ver_restricted_row[j].includes(i) && !flat_block.includes(i)))[0];
 
-					else if(hor_restricted_row[0] === )
+					else if(hor_restricted_row[0][0] !== undefined)
 						block[j][x] =random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !flat_block.includes(i)))[0];
 
-					else if(ver_restricted_row.length > 0)
+					else if(ver_restricted_row[0][0] !== undefined)
 						block[j][x] =random_assign(num_list.filter(i=>!flat_block.includes(i) && !ver_restricted_row[j].includes(i)))[0];
 
 					else block[j][x] =random_assign(num_list.filter(i=>!flat_block.includes(i)))[0];
