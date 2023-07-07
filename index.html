@@ -71,6 +71,7 @@
 <script>
 	const table_container = document.querySelector("#table_container");
 	const cell_list = [];
+	let new_arr = [];
 
 	for(let i = 0; i<9;i++){
 		let table = document.createElement("table");
@@ -101,54 +102,50 @@
 	function generate_numbers(){
 		let array = [];
 		for(let i =0; i < 9;i++){
+	
 
-				const left_restricted_row = [];
-				const leftmost_column = Math.floor(i/3) *3;
-				console.log(leftmost_column,i,array)
-				for(let j=leftmost_column; j<i;j++){
+				const hor_restricted_row = [];
+				//0th or 3rd or 6th block
+				const leftmost_block = Math.floor(i/3) * 3;
+
+				for(let j=leftmost_block; j<i;j++){
 					for(let k =0;k<3;k++){
-						const sub_restricted_row = [];
+						//each block has a 3 * 3 structure
+						const sub_row = [];
 						for(let x =0; x< 3;x++){
-
-							sub_restricted_row.push(array[j][x + 3 * k])
+							console.log(x+3*k,i,j,array[j],array,leftmost_column)
+							sub_row.push(array[j][x + 3 * k])
 
 						}
-						left_restricted_row.push(sub_restricted_row);
+						hor_restricted_row.push(sub_row);
 					}
 
 			}
-			//console.log(left_restricted_row)
-			const top_restricted_row = [];
-			const topmost_column = i%3;
-			for(let j = topmost_column; j<i;j+=3) {
+			const ver_restricted_row = [];
+			//0th or 1st or 2nd block
+			const topmost_block = i%3;
+			for(let j = topmost_block; j<i;j+=3) {
 				for(let k =0;k<3;k++){
-						const sub_restricted_row = [];
+						const sub_row = [];
 						for(let x =0; x< 3;x++){
-							sub_restricted_row.push(array[j][x + 3 * k])
-
+							sub_row.push(array[j][x + 3 * k])
 						}
-						top_restricted_row.push(sub_restricted_row);
+						ver_restricted_row.push(sub_row);
 					}
 
 			}
-			console.log(top_restricted_row,left_restricted_row)
+			for(let j =0; j<3;j++)
+			let new_arr = num_list.filter(i=>!hor_restricted_row.includes(i));
+	while(random_assign(new_arr)){
 
-			let new_arr = [];
-		// can not directly modify arr because if will modify the original array (num_list)
-			console.log(array)
-	console.log([].concat(...array).includes(undefined))
-	while(array.length === 0 || [].concat(...array).includes(undefined)){
-		console.log("yes")
-	const ran_arr = random_assign(num_list);
-	array = [];
 
 		while(ran_arr.length >0){
 			//get the current producing number in the rect
 			let current_num = num_list.length- ran_arr.length;
 			function check(num){
 				if(num === undefined) return false;
-				if(left_restricted_row.length > 0){
-					if(left_restricted_row[Math.floor(current_num/3)].includes(num))
+				if(hor_restricted_row.length > 0){
+					if(hor_restricted_row[Math.floor(current_num/3)].includes(num))
 						return false;
 
 				}
