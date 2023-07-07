@@ -101,34 +101,25 @@
 
 	}
 	function generate_numbers(){
-		let array = [];
+		
+		let array = []; 
 		for(let i =0; i < 9;i++){
-			console.log("new one")
-				const block = [];
+			console.log("new one ",i)
+			//create a 3 * 3 block
+				const block = Array.from(Array(3), () => new Array(3));;
 
+				const hor_restricted_row = Array.from(Array(2), () => new Array(3));
 
+				//Math.floor(i/3) * 3 => 0th or 3rd or 6th block
 
-				const hor_restricted_row = [];
-				//0th or 3rd or 6th block
-				const leftmost_block = Math.floor(i/3) * 3;
+				for(let j=Math.floor(i/3) * 3; j<i;j++){
+					console.log(hor_restricted_row)
+					for(let x=0;x<3;x++) hor_restricted_row[j].push(array[j][x])
 
-				for(let j=leftmost_block; j<i;j++){
-					for(let k =0;k<3;k++){
-						//each block has a 3 * 3 structure
-						const sub_row = [];
-						for(let x =0; x< 3;x++){
-							//console.log(x+3*k,i,j,array[j],array,leftmost_column)
-							sub_row.push(array[j][x + 3 * k])
-
-						}
-						hor_restricted_row.push(sub_row);
-					}
-
-			}
+				}
 			const ver_restricted_row = [];
-			//0th or 1st or 2nd block
-			const topmost_block = i%3;
-			for(let j = topmost_block; j<i;j+=3) {
+			//i%3 => 0th or 1st or 2nd block
+			for(let j = i%3; j<i;j+=3) {
 				for(let k =0;k<3;k++){
 						const sub_row = [];
 						for(let x =0; x< 3;x++){
@@ -138,28 +129,32 @@
 					}
 
 			}
+			console.log(hor_restricted_row,ver_restricted_row)
 			for(let j =0; j<3;j++){
-				let sub_array = [];
 				for(let x = 0;x<3;x++){
 					//convert 2d array block to be 1d so that it could be searched (.includes) below. block.slice() create a copy of the original array
 					const flat_block = [].concat.apply([],block.slice());
-				
-					if(hor_restricted_row.length > 0 && ver_restricted_row.length > 0) sub_array.push(random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !ver_restricted_row[j].includes(i) && !flat_block.includes(i)))[0]);
-					else if(hor_restricted_row.length > 0)
-						sub_array.push(random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !flat_block.includes(i)))[0]);
-					else if(ver_restricted_row.length > 0)
-						sub_array.push(random_assign(num_list.filter(i=>!flat_block.includes(i) && !ver_restricted_row[j].includes(i)))[0]);
-					else sub_array.push(random_assign(num_list.filter(i=>!flat_block.includes(i)))[0]);
+				    
+					if(hor_restricted_row.length > 0 && ver_restricted_row.length > 0) 
+						block[j][x] = random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !ver_restricted_row[j].includes(i) && !flat_block.includes(i)))[0];
 
-					console.log("subarray",sub_array)
+					else if(hor_restricted_row[0] === )
+						block[j][x] =random_assign(num_list.filter(i=>!hor_restricted_row[x].includes(i) && !flat_block.includes(i)))[0];
+
+					else if(ver_restricted_row.length > 0)
+						block[j][x] =random_assign(num_list.filter(i=>!flat_block.includes(i) && !ver_restricted_row[j].includes(i)))[0];
+
+					else block[j][x] =random_assign(num_list.filter(i=>!flat_block.includes(i)))[0];
+
+
+				
 
 					
 				}
-				block.push(sub_array)
-				console.log("block:",block)
+				//console.log("block:",block)
 			}
 			array.push(block)
-			console.log(array)
+			//console.log(array)
 			/*
 			let new_arr = num_list.filter(i=>!hor_restricted_row.includes(i));
 
@@ -207,9 +202,14 @@
 	}
 		
 
+			console.log(array)
 document.querySelectorAll("table").forEach((table,num_1)=>{
-			table.querySelectorAll("td").forEach((td,num_2)=>{
-				td.textContent = array[num_1][num_2];
+			table.querySelectorAll("tr").forEach((tr,num_2)=>{
+				tr.querySelectorAll("td").forEach((td,num_3)=>{
+					td.textContent = array[num_1][num_2][num_3];
+
+				})
+
 			})
 		})
 
