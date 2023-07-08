@@ -57,6 +57,12 @@
   top:20%;
 
 	}
+	.selected{
+		background-color:rgb(164, 207, 255);
+	}
+	.selected_column_color{
+		background-color:rgb(222, 226, 236);
+	}
 	
 </style>
 
@@ -71,8 +77,7 @@
 </div>
 <script>
 	const table_container = document.querySelector("#table_container");
-	const cell_list = [];
-	let new_arr = [];
+	let key_array;
 
 	for(let i = 0; i<9;i++){
 		let table = document.createElement("table");
@@ -159,12 +164,27 @@ document.querySelectorAll("table").forEach((table,num_1)=>{
 
 			})
 		})
+key_array = array.slice();
 
 	}
 
 	
 	generate_numbers();
+	document.querySelectorAll("td").forEach(td=>{
 
+		td.addEventListener("click", function(){
+			console.log('s')
+			remove_class("selected");
+			[...document.querySelectorAll("td")].filter(ele=>ele.textContent === td.textContent).forEach(i=> i.classList.add("selected"));
+			console.log([...document.querySelectorAll("td")].filter(ele=>ele.textContent === td.textContent))
+		})
+	})
+
+
+function remove_class(class_name){
+	document.querySelectorAll(`.${class_name}`).forEach(ele=>ele.classList.remove(class_name))
+
+}
 
 </script>
 </body>
